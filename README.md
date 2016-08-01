@@ -37,7 +37,9 @@ The default API base URL is `http://localhost:3001/api`
 
 ###GET: /bodypart/{value}?
 This API endpoint allows a user to query for procedures by specified `bodypart`. If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility.
+
 Example:
+
 ```javascript
 {
   totalRecords:5,

@@ -25,9 +25,13 @@ Schema: {
 Most facility RIS systems can provide their procedure table in a CSV format though not all provide associated bodyparts. In that case, you will need to assign bodyparts manually.
 
 The CSV file should have a header line as follows:
+
 `imgcode,bodypart,modality,description`
+
 Once you have the procedure report in CSV format, you can use the following command to import it into MongoDB:
-`mongoimport -d <your_dbname> -c bodyparts --type csv --file <your_csv_filename> --headerline
+
+`mongoimport -d <your_dbname> -c bodyparts --type csv --file <your_csv_filename> --headerline`
+
 ##API Details
 The default API base URL is `http://localhost:3001/api`
 

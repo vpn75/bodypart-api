@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://10.173.13.192/test');
+const mongo_host = process.env.MONGO_DB_URI || 'mongodb://localhost/test';
+mongoose.connect(mongo_host);
 
 const Schema = mongoose.Schema;
 

@@ -8,6 +8,26 @@ Modern PACS systems typically associate a bodypart, best understood as an 'anato
 ##Overview
 This API provides an alternate interface using modern software standards for the bodypart lookup. Adopting a RESTful-API approach to the bodypart table simplifies interactions with other 3rd party systems. For example, the facility RIS that maintains imaging procedure details could utilize the API when procedures are added/updated and these changes would be immediately available to the PACS. Convenient web-based tools could also be developed by taking advantage of the REST API.
 
+##Database Design
+This API relies on a MongoDB with collection named `bodyparts`.
+
+The collection schema is as follows:
+```javascript
+{
+Schema: {
+  imgcode: {type: String, required: true},
+  bodypart: {type: String, required: true},
+  modality: {type: String, required: true},
+  description: {type: String, required: true},
+  }
+}
+```
+Most facility RIS systems can provide their procedure table in a CSV format though not all provide associated bodyparts. In that case, you will need to assign bodyparts manually.
+
+The CSV file should have a header line as follows:
+`imgcode,bodypart,modality,description`
+Once you have the procedure report in CSV format, you can use the following command to import it into MongoDB:
+`mongoimport -d <your_dbname> -c bodyparts --type csv --file <your_csv_filename> --headerline
 ##API Details
 The default API base URL is `http://localhost:3001/api`
 
@@ -24,4 +44,5 @@ Example:
     HEAD,
     PELVIS
     ]
-  }
+}
+```

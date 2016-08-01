@@ -1,0 +1,22 @@
+{
+  "name": "pacs_bodypart_api",
+  "version": "1.0.0",
+  "description": "A REST API for PACS bodypart table",
+  "main": "app.js",
+  "start": {
+
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vamsi Nath",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "colors": "*",
+    "express": "*",
+    "mongodb": "*",
+    "mongoose": "*"
+  }
+}

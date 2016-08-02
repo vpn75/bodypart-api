@@ -37,7 +37,8 @@ The default API base URL is `http://localhost:3001/api`
 
 ###GET: /bodypart/{value}?
 This API endpoint allows a user to query for procedures by specified `bodypart`. 
-If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility.
+
+If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility. This can be useful for web-apps using the API to maintain up-to-date bodypart filters.
 
 Example:
 
@@ -53,3 +54,19 @@ Example:
     ]
 }
 ```
+The JSON response when searching by specific `bodypart` will be in the following format:
+
+```javascript
+{
+    totalRecords: <integer> Number of matching records
+    records: [
+        {
+            imgcode: Procedure code
+            bodypart: Associated anatomical region
+            modality: Imaging modality code (ie. CR,CT,MR,US etc.)
+            description: Imaging procedure description
+        }
+    ]
+}
+
+If no matching records found, HTTP status of 404 will be returned.

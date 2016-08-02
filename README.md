@@ -68,6 +68,7 @@ The JSON response when searching by specific `bodypart` will be in the following
         }
     ]
 }
+```
 
 If no matching records found, HTTP status of 404 will be returned.
 

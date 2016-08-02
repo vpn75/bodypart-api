@@ -2,21 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bodypart = require('./model');
 const colors =  require('colors');
+const cors = require('cors');
 
 const app = express();
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api', router);
 
+/*
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
+*/
 
 router.route('/')
 	.get((req, res) => {

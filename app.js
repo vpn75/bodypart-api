@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bodypart = require('./model');
+const colors =  require('colors');
 
 const app = express();
 const router = express.Router();
@@ -9,6 +10,12 @@ const port = process.env.API_PORT || 3001;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api', router);
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 router.route('/')
@@ -138,10 +145,6 @@ router.route('/code/:code_value')
 		}
 	});
 
-app.listen(port, () => {
-	console.log('Server running on port ' + port);
-});
-
 router.route('/description/:value')
 	.get((req,res) => {
 		if (!req.params.value) {
@@ -189,3 +192,7 @@ router.route('/description/:value')
 			});
 		}		
 	});
+
+	app.listen(port, () => {
+	console.log(colors.bold.green('Bodypart API running on localhost:' + port));
+});

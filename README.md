@@ -13,14 +13,14 @@ This API relies on a MongoDB with collection named `bodyparts`.
 
 The collection schema is as follows:
 ```javascript
-{
-Schema: {
-  imgcode: {type: String, required: true},
-  bodypart: {type: String, required: true},
-  modality: {type: String, required: true},
-  description: {type: String, required: true},
+
+const Schema = {
+    imgcode: {type: String, required: true},
+    bodypart: {type: String, required: true},
+    modality: {type: String, required: true},
+    description: {type: String, required: true},
   }
-}
+
 ```
 Most facility RIS systems can provide their procedure table in a CSV format though not all provide associated bodyparts. In that case, you will need to assign bodyparts manually.
 
@@ -36,7 +36,8 @@ Once you have the procedure report in CSV format, you can use the following comm
 The default API base URL is `http://localhost:3001/api`
 
 ###GET: /bodypart/{value}?
-This API endpoint allows a user to query for procedures by specified `bodypart`. If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility.
+This API endpoint allows a user to query for procedures by specified `bodypart`. 
+If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility.
 
 Example:
 

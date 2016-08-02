@@ -164,7 +164,7 @@ router.route('/description/:value')
 					res.status(500).send({'msg':'Error!'});
 				}
 				if (docs.length < 1) {
-					res.status(400).send({});
+					res.status(404).send({});
 				}
 				else {
 					const result = {};

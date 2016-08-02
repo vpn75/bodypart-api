@@ -70,3 +70,9 @@ The JSON response when searching by specific `bodypart` will be in the following
 }
 
 If no matching records found, HTTP status of 404 will be returned.
+
+###Optional: A modality query parameter can be supplied to filter matches by modality
+
+Example:
+
+`http://localhost:3001/api/bodypart/chest?modality=ct`

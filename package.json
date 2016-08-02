@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "A REST API for PACS bodypart table",
   "main": "app.js",
-  "start": {
-
-  },
+  "start": {},
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,6 +13,7 @@
   "dependencies": {
     "body-parser": "*",
     "colors": "*",
+    "cors": "^2.7.1",
     "express": "*",
     "mongodb": "*",
     "mongoose": "*"

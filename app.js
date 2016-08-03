@@ -7,6 +7,7 @@ const cors = require('cors');
 const app = express();
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -126,7 +127,7 @@ router.route('/bodypart/:name')
 
 router.route('/code/:code_value')
 	.get((req, res) => {
-		if (req.params.code_value) {
+		if (req.query.match == 'partial') {
 			const regex = new RegExp(req.params.code_value, "i");
 
 			bodypart.find({imgcode: regex}).
@@ -142,6 +143,20 @@ router.route('/code/:code_value')
 					result.totalRecords = docs.length;
 					result.records = docs;
 					res.json(result);
+				}
+			});
+		}
+		else {
+			bodypart.findOne({imgcode: req.params.code_value.toUpperCase()})
+			.exec((err, doc) => {
+				if (err) {
+					res.status(500).send();
+				}
+				if (!doc) {
+					res.status(404).send();
+				}
+				else {
+					res.json(doc);
 				}
 			});
 		}

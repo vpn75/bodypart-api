@@ -48,15 +48,31 @@ router.route('/')
 			description: req.body.description
 		});
 
-		newbp.save((err) => {
-			if (err) {
-				res.status(500).json({msg: 'Error!'});
-			}
-				res.json({msg:'Success'})
+		newbp.save()
+		.then((bodypart) => {
+			res.json(bodypart);
+		})
+		.catch(err => {
+			res.status(500).json({msg:'Error saving document!'});
 		});
 
 	});
-
+//Define PUT route for updating existing records
+router.route('/update/:id')
+	.put((req, res) => {
+		bodypart.findByIdAndUpdate(req.params.id, {$set: req.body})
+			.exec((err, result) => {
+				if (err) {
+					console.log(err);
+					res.status(500).json({msg:'Error!'});
+				}
+				else {
+					console.log(result);
+					res.json({msg:'Success!'});
+				}	
+			});
+		});
+//Define DELETE route for removing existing records
 router.route('/delete/:id')
 
 	.delete((req, res) => {
@@ -81,7 +97,7 @@ router.route('/bodypart')
 			}
 			else {
 				const result = {};
-				result.bodyparts = bp;
+				result.bodyparts = bp.sort(); //Sort alphabetically
 				res.json(result);
 			}
 		});
@@ -141,7 +157,7 @@ router.route('/code/:code_value')
 						res.status(500).json({'msg':'Error!'});
 					}
 					if (docs.length < 1) {
-						res.status(404).send();
+						res.status(200).json({msg:'Search failed!',records: []});
 					}
 					else {
 						const result = jsonResponse(docs);
@@ -170,7 +186,7 @@ router.route('/description/:value')
 	.get((req,res) => {
 		if (!req.params.value) {
 			//console.log('Missing description search value!');
-			res.status(404).send();
+			res.status(200).json({msg:'Missing parameter', records: []});
 		}
 		if (req.query.modality) {
 			bodypart.find()
@@ -182,10 +198,10 @@ router.route('/description/:value')
 				)
 				.exec((err, docs) => {
 					if (err) {
-						res.status(500).send({'msg':'Error!'});
+						res.status(500).send({msg:'Error', records: []});
 					}
 					if (docs.length < 1) {
-						res.status(404).send();
+						res.status(200).json({msg:'No results', records: []});
 					}
 					else {
 						const result = jsonResponse(docs);
@@ -199,10 +215,10 @@ router.route('/description/:value')
 				)
 				.exec((err, docs) => {
 					if (err) {
-						res.status(500).json({'msg':'Error!'});
+						res.status(500).json({msg:'Error', records: []});
 					}
 					if (docs.length < 1) {
-						res.status(404).send();
+						res.status(200).json({msg:'No results', records: []});
 					}
 					else {
 						const result = jsonResponse(docs);

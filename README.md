@@ -84,3 +84,19 @@ If no matching records found, the following JSON response will be returned.
 Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
+
+###GET: /imgcode/{value}
+This API endpoint allows for query by procedure-code.
+
+Also supports partial-match search adding query parameter, `match=partial`
+
+Example:
+`http://localhost:3001/api/imgcode/img30?match=partial`
+
+Could return:
+`IMG30
+IMG301
+IMG3020
+`
+
+

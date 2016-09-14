@@ -85,18 +85,28 @@ Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
 
-###GET: /imgcode/{value}
+###GET: /code/{value}
 This API endpoint allows for query by procedure-code.
 
 Also supports partial-match search adding query parameter, `match=partial`
 
 Example:
-`http://localhost:3001/api/imgcode/img30?match=partial`
+`http://localhost:3001/api/code/img30?match=partial`
 
 Could return:
-`IMG30
-IMG301
-IMG3020
-`
+`IMG30 IMG301 IMG3020`
 
+###GET: /description/{value}
+This API endpoint allows for query by partial match in procedure description.
+
+For example:
+`http://localhost:3001/api/description/contrast`
+
+Would return all procedures with the word, `contrast` in the description.
+
+***Optional***: A modality query parameter can be supplied to filter matches by modality
+
+Example:
+
+`http://localhost:3001/api/description/contrast?modality=ct`
 

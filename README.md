@@ -110,3 +110,17 @@ Example:
 
 `http://localhost:3001/api/description/contrast?modality=ct`
 
+###POST: /
+This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the FORM body. Successful POSTs will return a JSON object for the new created document.
+
+###PUT: /update/{objectID}
+This API endpoint allows updating of existing records by passing an JSON object in FORM body containing updated record. The document ID of the MongoDB record must be including in API request to update the appropriate record.
+
+###DELETE: /delete/{objectID}
+This API endpoint allows you to delete procedures from the database. A document ID for the MongoDB record to be deleted must be passed in the API request.
+
+If successfull, returns following JSON msg:
+
+```javascript
+{msg: 'Record successfully deleted!'}
+```

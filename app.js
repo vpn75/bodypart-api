@@ -47,15 +47,14 @@ router.route('/')
 			modality: req.body.modality,
 			description: req.body.description
 		});
-
+		console.log(req.body);
 		newbp.save()
-		.then((bodypart) => {
-			res.json(bodypart);
-		})
-		.catch(err => {
-			res.status(500).json({msg:'Error saving document!'});
-		});
-
+			.then((bodypart) => {
+				res.json(bodypart);
+			})
+			.catch(err => {
+				res.status(500).json({msg:'Error saving document!'});
+			});
 	});
 //Define PUT route for updating existing records
 router.route('/update/:id')
@@ -67,7 +66,7 @@ router.route('/update/:id')
 					res.status(500).json({msg:'Error!'});
 				}
 				else {
-					console.log(result);
+					//console.log(result);
 					res.json({msg:'Success!'});
 				}	
 			});
@@ -107,15 +106,15 @@ router.route('/bodypart')
 router.route('/bodypart/:name')
 	.get((req, res) => {
 		//const bpname = req.params.name;
+		let query = {};
+		query.bodypart = req.params.name.toUpperCase();
 		if (req.query.modality) {
 			//console.log(req.query.modality);
-			bodypart.find()
-				.and(
-					[
-						{bodypart: req.params.name.toUpperCase()}, 
-						{modality: req.query.modality.toUpperCase()}
-					]
-				)
+			query.modality = req.query.modality.toUpperCase();
+			if (req.query.laterality) {
+				query.laterality = req.query.laterality.toUpperCase();
+			}
+			bodypart.find(query)
 				.exec((err, docs) => {
 					if (err) {
 						res.status(500).json({'msg':'error'});
@@ -127,15 +126,16 @@ router.route('/bodypart/:name')
 				});
 		}
 		else {
-			bodypart.find()
-				.where('bodypart')
-				.equals(req.params.name.toUpperCase())
+			if (req.query.laterality) {
+				query.laterality = req.query.laterality.toUpperCase();
+			}
+			bodypart.find(query)
 				.exec((err, docs) => {
 					if (err) {
 						res.status(500).json({'msg':'Error!'});
 					}
 					if (docs.length < 1) {
-						res.status(404).send();
+						res.status(200).json({msg:'No results', records: []});
 					}
 					else {
 						const result = jsonResponse(docs);
@@ -157,7 +157,7 @@ router.route('/code/:code_value')
 						res.status(500).json({'msg':'Error!'});
 					}
 					if (docs.length < 1) {
-						res.status(200).json({msg:'Search failed!',records: []});
+						res.status(200).json({msg:'No results',records: []});
 					}
 					else {
 						const result = jsonResponse(docs);
@@ -188,14 +188,14 @@ router.route('/description/:value')
 			//console.log('Missing description search value!');
 			res.status(200).json({msg:'Missing parameter', records: []});
 		}
+		let query = {};
+		query.$text = {$search: encodeURI(req.params.value)};
 		if (req.query.modality) {
-			bodypart.find()
-				.and(
-					[
-						{$text: {$search: encodeURI(req.params.value)}},
-						{modality: req.query.modality.toUpperCase()}
-					]
-				)
+			query.modality = req.query.modality.toUpperCase();	
+			if (req.query.laterality) {
+				query.laterality = req.query.laterality.toUpperCase();
+			}
+			bodypart.find(query)
 				.exec((err, docs) => {
 					if (err) {
 						res.status(500).send({msg:'Error', records: []});
@@ -210,9 +210,10 @@ router.route('/description/:value')
 				});
 		}
 		else {
-			bodypart.find(
-					{$text: {$search: encodeURI(req.params.value)}}
-				)
+			if (req.query.laterality) {
+				query.laterality = req.query.laterality.toUpperCase();
+			}
+			bodypart.find(query)
 				.exec((err, docs) => {
 					if (err) {
 						res.status(500).json({msg:'Error', records: []});

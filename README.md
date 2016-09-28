@@ -27,7 +27,7 @@ Most facility RIS systems can provide their procedure table in a CSV format thou
 
 The CSV file should have a header line as follows:
 
-`imgcode,bodypart,modality,description`
+`imgcode,bodypart,laterality,modality,description`
 
 Once you have the procedure report in CSV format, you can use the following command to import it into MongoDB:
 

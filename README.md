@@ -9,7 +9,7 @@ Modern PACS systems typically associate a bodypart, best understood as an 'anato
 This API provides an alternate interface using modern software standards for the bodypart lookup. Adopting a RESTful-API approach to the bodypart table simplifies interactions with other 3rd party systems. For example, the facility RIS that maintains imaging procedure details could utilize the API when procedures are added/updated and these changes would be immediately available to the PACS. Convenient web-based tools could also be developed by taking advantage of the REST API.
 
 ##Database Design
-This API relies on a MongoDB with collection named `bodyparts`.
+This API relies on a MongoDB with collection named `pacsbodyparts`.
 
 The collection schema is as follows:
 ```javascript

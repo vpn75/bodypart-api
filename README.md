@@ -1,6 +1,6 @@
 #PACS Bodypart API
 
-This NodeJS module provides a REST-API interface for a facility PACS bodypart table. The API was developed using a NodeJS/Express/MongoDB stack.
+This NodeJS module provides a REST-API interface for a facility PACS bodypart table. The API was developed using a [NodeJS](http://nodejs.org)/[Express](http://expressjs.com)/[MongoDB](http://www.mongodb.com) stack.
 
 ##Background
 Modern PACS systems typically associate a bodypart, best understood as an 'anatomical region' with each imaging procedure. These bodypart values can drive a variety of application workflows and typically determine what display protocol to use along with which relevant priors to hang for a particular study. The mapping of bodypart to imaging study often involves matching a study by patientID/accessionnumber to a particular HL7 order to identify the associated procedure code which is used as the "key" to look up the relevant bodypart value stored in an application config.
@@ -70,10 +70,57 @@ The JSON response when searching by specific `bodypart` will be in the following
 }
 ```
 
-If no matching records found, HTTP status of 404 will be returned.
+If no matching records found, the following JSON response will be returned.
+
+```javascript
+{
+    msg: 'No results',
+    records: []
+}
+```
 
 ***Optional***: A modality query parameter can be supplied to filter matches by modality
 
 Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
+
+###GET: /code/{value}
+This API endpoint allows for query by procedure-code.
+
+Also supports partial-match search adding query parameter, `match=partial`
+
+Example:
+`http://localhost:3001/api/code/img30?match=partial`
+
+Could return:
+`IMG30 IMG301 IMG3020`
+
+###GET: /description/{value}
+This API endpoint allows for query by partial match in procedure description.
+
+For example:
+`http://localhost:3001/api/description/contrast`
+
+Would return all procedures with the word, `contrast` in the description.
+
+***Optional***: A modality query parameter can be supplied to filter matches by modality
+
+Example:
+
+`http://localhost:3001/api/description/contrast?modality=ct`
+
+###POST: /
+This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the FORM body. Successful POSTs will return a JSON object for the new created document.
+
+###PUT: /update/{objectID}
+This API endpoint allows updating of existing records by passing an JSON object in FORM body containing updated record. The document ID of the MongoDB record must be including in API request to update the appropriate record.
+
+###DELETE: /delete/{objectID}
+This API endpoint allows you to delete procedures from the database. A document ID for the MongoDB record to be deleted must be passed in the API request.
+
+If successfull, returns following JSON msg:
+
+```javascript
+{msg: 'Record successfully deleted!'}
+```

@@ -8,10 +8,11 @@ const Schema = mongoose.Schema;
 const bpSchema =  new Schema({
 	imgcode: {type: String, required: true},
 	bodypart: {type: String, required: true},
+	laterality: {type: String},
 	description: {type: String, required: true},
 	modality: {type: String, required: true}
 });
 
-const bodypart = mongoose.model('bodypart', bpSchema);
+const bodypart = mongoose.model('pacsbodypart', bpSchema);
 
 module.exports = bodypart;

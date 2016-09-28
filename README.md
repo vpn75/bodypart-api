@@ -17,6 +17,7 @@ The collection schema is as follows:
 const Schema = {
     imgcode: {type: String, required: true},
     bodypart: {type: String, required: true},
+    laterality: {type: String},
     modality: {type: String, required: true},
     description: {type: String, required: true},
   }
@@ -30,7 +31,7 @@ The CSV file should have a header line as follows:
 
 Once you have the procedure report in CSV format, you can use the following command to import it into MongoDB:
 
-`mongoimport -d <your_dbname> -c bodyparts --type csv --file <your_csv_filename> --headerline`
+`mongoimport -d <your_dbname> -c pacsbodyparts --type csv --file <your_csv_filename> --headerline`
 
 ##API Details
 The default API base URL is `http://localhost:3001/api`
@@ -63,6 +64,7 @@ The JSON response when searching by specific `bodypart` will be in the following
         {
             imgcode: Procedure code
             bodypart: Associated anatomical region
+            laterality: RT or LT (optional)
             modality: Imaging modality code (ie. CR,CT,MR,US etc.)
             description: Imaging procedure description
         }

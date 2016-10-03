@@ -87,7 +87,7 @@ Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
 
-***Optional***: A `lateral` query parameter can be supplied to filter by specific laterality (ie. left or right)
+***Optional***: A `lateralality` query parameter can be supplied to filter by specific laterality (ie. left or right)
 
 `http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
@@ -116,7 +116,7 @@ Example:
 
 `http://localhost:3001/api/description/contrast?modality=ct`
 
-***Optional***: A `lateral` query parameter can be supplied to filter by specific laterality (ie. left or right)
+***Optional***: A `lateralality` query parameter can be supplied to filter by specific laterality (ie. left or right)
 
 `http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 

@@ -81,11 +81,15 @@ If no matching records found, the following JSON response will be returned.
 }
 ```
 
-***Optional***: A modality query parameter can be supplied to filter matches by modality
+***Optional***: A `modality` query parameter can be supplied to filter matches by modality
 
 Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
+
+***Optional***: A `lateral` query parameter can be supplied to filter by specific laterality (ie. left or right)
+
+`http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
 ###GET: /code/{value}
 This API endpoint allows for query by procedure-code.
@@ -111,6 +115,10 @@ Would return all procedures with the word, `contrast` in the description.
 Example:
 
 `http://localhost:3001/api/description/contrast?modality=ct`
+
+***Optional***: A `lateral` query parameter can be supplied to filter by specific laterality (ie. left or right)
+
+`http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
 ###POST: /
 This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the FORM body. Successful POSTs will return a JSON object for the new created document.

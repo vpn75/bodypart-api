@@ -110,7 +110,7 @@ For example:
 
 Would return all procedures with the word, `contrast` in the description.
 
-***Optional***: A modality query parameter can be supplied to filter matches by modality
+***Optional***: A `modality` query parameter can be supplied to filter matches by modality
 
 Example:
 

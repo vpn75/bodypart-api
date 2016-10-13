@@ -120,7 +120,7 @@ Example:
 
 `http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
-###POST: /
+###POST: /create
 This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the Request body. Successful POSTs will return a JSON object containing the newly created document with assigned MongoDB ObjectID.
 
 ###PUT: /update/{objectID}

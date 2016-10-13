@@ -36,26 +36,29 @@ router.route('/')
 				const result = jsonResponse(docs);
 				res.json(result);
 			});
-	})
-
-	//Define POST route at base for adding new procedure-codes/bodyparts
-	.post((req, res) => {
-		
-		const newbp = new bodypart({
-			imgcode: req.body.imgcode,
-			bodypart: req.body.bodypart,
-			modality: req.body.modality,
-			description: req.body.description
-		});
-		console.log(req.body);
-		newbp.save()
-			.then((bodypart) => {
-				res.json(bodypart);
-			})
-			.catch(err => {
-				res.status(500).json({msg:'Error saving document!'});
-			});
 	});
+
+	//Define POST route on /create endpoint for adding new procedure-codes/bodyparts
+	router.route('/create')
+		.post((req, res) => {
+			const newbp = new bodypart({
+				imgcode: req.body.imgcode.toUpperCase(),
+				bodypart: req.body.bodypart.toUpperCase(),
+				modality: req.body.modality.toUpperCase(),
+				description: req.body.description.toUpperCase()
+			});
+			if (req.body.laterality) {
+				newbp.laterality = req.body.laterality.toUpperCase();
+			}
+			console.log(req.body);
+			newbp.save()
+				.then((bodypart) => {
+					res.json(bodypart);
+				})
+				.catch(err => {
+					res.status(500).json({msg:'Error saving document!'});
+				});
+		});
 //Define PUT route for updating existing records
 router.route('/update/:id')
 	.put((req, res) => {

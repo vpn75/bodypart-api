@@ -9,7 +9,7 @@ Modern PACS systems typically associate a bodypart, best understood as an 'anato
 This API provides an alternate interface using modern software standards for the bodypart lookup. Adopting a RESTful-API approach to the bodypart table simplifies interactions with other 3rd party systems. For example, the facility RIS that maintains imaging procedure details could utilize the API when procedures are added/updated and these changes would be immediately available to the PACS. Convenient web-based tools could also be developed by taking advantage of the REST API.
 
 ##Database Design
-This API relies on a MongoDB with collection named `bodyparts`.
+This API relies on a MongoDB collection named `pacsbodyparts`.
 
 The collection schema is as follows:
 ```javascript
@@ -17,6 +17,7 @@ The collection schema is as follows:
 const Schema = {
     imgcode: {type: String, required: true},
     bodypart: {type: String, required: true},
+    laterality: {type: String},
     modality: {type: String, required: true},
     description: {type: String, required: true},
   }
@@ -26,11 +27,11 @@ Most facility RIS systems can provide their procedure table in a CSV format thou
 
 The CSV file should have a header line as follows:
 
-`imgcode,bodypart,modality,description`
+`imgcode,bodypart,laterality,modality,description`
 
 Once you have the procedure report in CSV format, you can use the following command to import it into MongoDB:
 
-`mongoimport -d <your_dbname> -c bodyparts --type csv --file <your_csv_filename> --headerline`
+`mongoimport -d <your_dbname> -c pacsbodyparts --type csv --file <your_csv_filename> --headerline`
 
 ##API Details
 The default API base URL is `http://localhost:3001/api`
@@ -63,6 +64,7 @@ The JSON response when searching by specific `bodypart` will be in the following
         {
             imgcode: Procedure code
             bodypart: Associated anatomical region
+            laterality: RT or LT (optional)
             modality: Imaging modality code (ie. CR,CT,MR,US etc.)
             description: Imaging procedure description
         }
@@ -79,11 +81,15 @@ If no matching records found, the following JSON response will be returned.
 }
 ```
 
-***Optional***: A modality query parameter can be supplied to filter matches by modality
+***Optional***: A `modality` query parameter can be supplied to filter matches by modality
 
 Example:
 
 `http://localhost:3001/api/bodypart/chest?modality=ct`
+
+***Optional***: A `laterality` query parameter can be supplied to filter by specific laterality (ie. left or right)
+
+`http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
 ###GET: /code/{value}
 This API endpoint allows for query by procedure-code.
@@ -104,17 +110,21 @@ For example:
 
 Would return all procedures with the word, `contrast` in the description.
 
-***Optional***: A modality query parameter can be supplied to filter matches by modality
+***Optional***: A `modality` query parameter can be supplied to filter matches by modality
 
 Example:
 
 `http://localhost:3001/api/description/contrast?modality=ct`
 
+***Optional***: A `laterality` query parameter can be supplied to filter by specific laterality (ie. left or right)
+
+`http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
+
 ###POST: /
-This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the FORM body. Successful POSTs will return a JSON object for the new created document.
+This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the Request body. Successful POSTs will return a JSON object containing the newly created document with assigned MongoDB ObjectID.
 
 ###PUT: /update/{objectID}
-This API endpoint allows updating of existing records by passing an JSON object in FORM body containing updated record. The document ID of the MongoDB record must be including in API request to update the appropriate record.
+This API endpoint allows updating of existing records by passing an JSON object in the Request body containing updated record. The document ID of the MongoDB record must be including in API request to update the appropriate record.
 
 ###DELETE: /delete/{objectID}
 This API endpoint allows you to delete procedures from the database. A document ID for the MongoDB record to be deleted must be passed in the API request.

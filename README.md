@@ -1,14 +1,14 @@
-#PACS Bodypart API
+# PACS Bodypart API
 
 This NodeJS module provides a REST-API interface for a facility [PACS](https://en.wikipedia.org/wiki/Picture_archiving_and_communication_system) bodypart table. The API was developed using a [NodeJS](http://nodejs.org)/[Express](http://expressjs.com)/[MongoDB](http://www.mongodb.com) stack.
 
-##Background
+## Background
 Modern [PACS](https://en.wikipedia.org/wiki/Picture_archiving_and_communication_system) systems typically associate a bodypart, best understood as an 'anatomical region' with each imaging procedure. These bodypart values can drive a variety of application workflows and typically determine what display protocol to use along with which relevant priors to hang for a particular study. The mapping of bodypart to imaging study often involves matching a study by patientID/accessionnumber to a particular HL7 order to identify the associated procedure code which is used as the "key" to look up the relevant bodypart value stored in an application config.
 
-##Overview
+## Overview
 This API provides an alternate interface using modern software standards for the bodypart lookup. Adopting a RESTful-API approach to the bodypart table simplifies interactions with other 3rd party systems. For example, the facility RIS that maintains imaging procedure details could utilize the API when procedures are added/updated and these changes would be immediately available to the PACS. Convenient web-based tools could also be developed by taking advantage of the REST API.
 
-##Database Design
+## Database Design
 This API relies on a MongoDB collection named `pacsbodyparts`.
 
 The collection schema is as follows:
@@ -33,10 +33,10 @@ Once you have the procedure report in CSV format, you can use the following comm
 
 `mongoimport -d <your_dbname> -c pacsbodyparts --type csv --file <your_csv_filename> --headerline`
 
-##API Details
+## API Details
 The default API base URL is `http://localhost:3001/api`
 
-###GET: /bodypart/{value}?
+### GET: /bodypart/{value}?
 This API endpoint allows a user to query for procedures by specified `bodypart`. 
 
 If `bodypart` is excluded, the API will return a listing of distinct bodyparts used at the facility. This can be useful for web-apps using the API to maintain up-to-date bodypart filters.
@@ -91,7 +91,7 @@ Example:
 
 `http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
-###GET: /code/{value}
+### GET: /code/{value}
 This API endpoint allows for query by procedure-code.
 
 Also supports partial-match search adding query parameter, `match=partial`
@@ -102,7 +102,7 @@ Example:
 Could return:
 `IMG30 IMG301 IMG3020`
 
-###GET: /description/{value}
+### GET: /description/{value}
 This API endpoint allows for query by partial match in procedure description.
 
 For example:
@@ -120,13 +120,13 @@ Example:
 
 `http://localhost:3001/api/bodypart/femur?laterality=<lt|rt>`
 
-###POST: /create
+### POST: /create
 This API endpoint can be used to add new procedure/bodyparts to the database by submitting a new record as a JSON object in the Request body. Successful POSTs will return a JSON object containing the newly created document with assigned MongoDB ObjectID.
 
-###PUT: /update/{objectID}
+### PUT: /update/{objectID}
 This API endpoint allows updating of existing records by passing an JSON object in the Request body containing updated record. The document ID of the MongoDB record must be including in API request to update the appropriate record.
 
-###DELETE: /delete/{objectID}
+### DELETE: /delete/{objectID}
 This API endpoint allows you to delete procedures from the database. A document ID for the MongoDB record to be deleted must be passed in the API request.
 
 If successfull, returns following JSON msg:
